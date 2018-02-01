@@ -1,10 +1,10 @@
-package com.knoldus
+package com.knoldus.service
 
 import com.knoldus.util.ConfigManager
 import org.apache.http.HttpHost
 import org.elasticsearch.client.{RestClient, RestHighLevelClient}
 
-class HighLevelRestClient {
+object HighLevelRestClient {
 
   val PORT = ConfigManager.config.getInt("es-port")
   val HOST = ConfigManager.config.getString("es-host")
@@ -14,5 +14,3 @@ class HighLevelRestClient {
     RestClient.builder(new HttpHost(HOST, PORT, SCHEME)))
 
 }
-
-object EsClient extends HighLevelRestClient

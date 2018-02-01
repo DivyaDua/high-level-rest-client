@@ -1,4 +1,6 @@
-package com.knoldus
+package com.knoldus.service
+
+import com.knoldus.models.User
 
 object elastic extends App with EsOperations {
   val user = User(1, "Divya", 21)
