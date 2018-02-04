@@ -11,6 +11,9 @@ import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import play.api.libs.json.Json
 
+/**
+  * EsOperations trait handles CRUD operations and executes it via RestHighLevelClient.
+  */
 trait EsOperations {
 
   val client: RestHighLevelClient = HighLevelRestClient.client
@@ -18,6 +21,7 @@ trait EsOperations {
   val type_name = "user"
 
   def insert(doc: User): IndexResponse = {
+    //creates request to insert documents
     val request = new IndexRequest(index_name, type_name, doc.id)
     val jsonString = Json.stringify(Json.toJson(doc))
     request.source(jsonString, XContentType.JSON)
@@ -25,6 +29,7 @@ trait EsOperations {
   }
 
   def update(id: String, fieldName: String, value: Any): UpdateResponse = {
+    //creates request to update documents having id passed in arguments with the given value
     val updateRequest = new UpdateRequest(index_name, type_name, id)
     val builder = XContentFactory.jsonBuilder
     builder.startObject
@@ -35,11 +40,13 @@ trait EsOperations {
   }
 
   def delete(id: String): DeleteResponse = {
+    //creates delete request
     val deleteRequest = new DeleteRequest(index_name, type_name, id)
     client.delete(deleteRequest)
   }
 
   def searchAll: SearchResponse = {
+    //creates request for searching all the documents
     val searchRequest = new SearchRequest(index_name)
     val searchSourceBuilder = new SearchSourceBuilder
     searchSourceBuilder.query(QueryBuilders.matchAllQuery())
@@ -48,7 +55,8 @@ trait EsOperations {
   }
 
   def searchByText(fieldName: String, value: Any): SearchResponse = {
-    val searchRequest = new SearchRequest(index_name).types(type_name)
+    //creates request for searching documents having field name and value as per the arguments
+    val searchRequest = new SearchRequest(index_name)
     val searchSourceBuilder = new SearchSourceBuilder
     searchSourceBuilder.query(QueryBuilders.matchPhraseQuery(fieldName, value))
     searchRequest.source(searchSourceBuilder)

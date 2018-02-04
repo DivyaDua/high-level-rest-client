@@ -10,6 +10,10 @@ object HighLevelRestClient {
   val HOST = ConfigManager.config.getString("es-host")
   val SCHEME = ConfigManager.config.getString("es-scheme")
 
+  /**
+    * Creates RestHighLevelClient given the low level RestClientBuilder
+    * and sets the hosts that the client will send requests to.
+    */
   val client = new RestHighLevelClient(
     RestClient.builder(new HttpHost(HOST, PORT, SCHEME)))
 
