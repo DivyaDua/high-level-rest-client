@@ -47,16 +47,17 @@ trait EsOperations {
 
   def searchAll: SearchResponse = {
     //creates request for searching all the documents
-    val searchRequest = new SearchRequest(index_name)
+    val searchRequest = new SearchRequest(index_name).types(type_name)
     val searchSourceBuilder = new SearchSourceBuilder
     searchSourceBuilder.query(QueryBuilders.matchAllQuery())
     searchRequest.source(searchSourceBuilder)
+    println(s"\n\n -- search request -- ${searchRequest.toString}")
     client.search(searchRequest)
   }
 
   def searchByText(fieldName: String, value: Any): SearchResponse = {
     //creates request for searching documents having field name and value as per the arguments
-    val searchRequest = new SearchRequest(index_name)
+    val searchRequest = new SearchRequest(index_name).types(type_name)
     val searchSourceBuilder = new SearchSourceBuilder
     searchSourceBuilder.query(QueryBuilders.matchPhraseQuery(fieldName, value))
     searchRequest.source(searchSourceBuilder)

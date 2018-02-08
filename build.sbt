@@ -4,9 +4,18 @@ version := "0.1"
 
 scalaVersion := "2.12.4"
 
+val awsJavaCoreSDK = "com.amazonaws" % "aws-java-sdk-core" % "1.11.256"
+val awsSigningRequestInterceptor = "vc.inreach.aws" % "aws-signing-request-interceptor" % "0.0.20"
+val elasticSearch = "org.elasticsearch" % "elasticsearch" % "5.6.0"
+val elasticSearchClient = "org.elasticsearch.client" % "elasticsearch-rest-high-level-client" % "5.6.0"
+val play = "com.typesafe.play" %% "play" % "2.6.11"
+val config = "com.typesafe" % "config" % "1.3.2"
+
 libraryDependencies ++= Seq(
-  "org.elasticsearch" % "elasticsearch" % "6.1.2",
-  "org.elasticsearch.client" % "elasticsearch-rest-high-level-client" % "6.1.2",
-  "com.typesafe.play" %% "play" % "2.6.11",
-  "com.typesafe" % "config" % "1.3.2"
+  elasticSearch,
+  elasticSearchClient,
+  play,
+  config,
+  awsJavaCoreSDK,
+  awsSigningRequestInterceptor
 )
