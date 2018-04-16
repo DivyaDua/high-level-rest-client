@@ -24,20 +24,27 @@ object HighLevelRestClient {
     * and sets the hosts that the client will send requests to.
     */
 
-  lazy val client = new RestHighLevelClient(
-  RestClient.builder(new HttpHost(AWS_HOST, 80))
-    .setHttpClientConfigCallback(
-    (httpClientBuilder: HttpAsyncClientBuilder) => httpClientBuilder.addInterceptorLast(requestInterceptor)))
+  lazy val client: RestHighLevelClient = new RestHighLevelClient(
+    RestClient.builder(
+      new HttpHost(AWS_HOST, 80))
+      .setHttpClientConfigCallback(
+        (httpClientBuilder: HttpAsyncClientBuilder) =>
+          httpClientBuilder.addInterceptorLast(performSigningSteps))
+      .build())
+
+  private def performSigningSteps: HttpRequestInterceptor = {
+
+    val awsCredentialsProvider: AWSCredentialsProvider = new AWSStaticCredentialsProvider(
+      new BasicAWSCredentials(AWS_ACCESS_ID, AWS_ACCESS_KEY))
+
+    val awsSigner = new AWSSigner(awsCredentialsProvider, REGION, SERVICE_NAME, clock)
+
+    new AWSSigningRequestInterceptor(awsSigner)
+
+  }
 
   final val clock = new Supplier[LocalDateTime] {
     override def get(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
-  }
-
-  private def requestInterceptor: HttpRequestInterceptor = {
-    val awsCredentialsProvider: AWSCredentialsProvider = new AWSStaticCredentialsProvider(new BasicAWSCredentials
-    (AWS_ACCESS_ID, AWS_ACCESS_KEY))
-    val awsSigner = new AWSSigner(awsCredentialsProvider, REGION, SERVICE_NAME, clock)
-    new AWSSigningRequestInterceptor(awsSigner)
   }
 
 }

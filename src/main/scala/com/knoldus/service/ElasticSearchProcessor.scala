@@ -3,14 +3,15 @@ package com.knoldus.service
 import com.knoldus.models.User
 
 object ElasticSearchProcessor extends App with EsOperations {
-  val user1 = User("1", "Divya", 21)
+
+  val user1 = User("10", "Divya", 21)
   println(s"Result of inserting 1st User in ES-----${insert(user1)}")
 
-//  val user2 = User("2", "Shruti", 22)
-//  println(s"Result of inserting 2nd User in ES-----${insert(user2)}")
+  //  val user2 = User("2", "Shruti", 22)
+  //  println(s"Result of inserting 2nd User in ES-----${insert(user2)}")
 
-//  val user3 = User("3", "Neha", 24)
-//  println(s"Result of inserting 3rd User in ES-----${insert(user3)}")
+  //  val user3 = User("3", "Neha", 24)
+  //  println(s"Result of inserting 3rd User in ES-----${insert(user3)}")
 
   //  println(s"Searching documents with matchAllQuery-----$searchAll")
 

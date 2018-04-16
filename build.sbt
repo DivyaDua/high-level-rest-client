@@ -9,13 +9,11 @@ val awsSigningRequestInterceptor = "vc.inreach.aws" % "aws-signing-request-inter
 val elasticSearch = "org.elasticsearch" % "elasticsearch" % "5.6.0"
 val elasticSearchClient = "org.elasticsearch.client" % "elasticsearch-rest-high-level-client" % "5.6.0"
 val play = "com.typesafe.play" %% "play" % "2.6.11"
-val config = "com.typesafe" % "config" % "1.3.2"
 
 libraryDependencies ++= Seq(
   elasticSearch,
   elasticSearchClient,
   play,
-  config,
   awsJavaCoreSDK,
   awsSigningRequestInterceptor
 )
